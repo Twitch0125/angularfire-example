@@ -4,7 +4,9 @@ import {
   AngularFirestoreDocument
 } from "@angular/fire/firestore";
 import { Company } from "../models/Company";
-import { Observable } from "rxjs";
+import { Observable, from } from "rxjs";
+import { of } from "rxjs/internal/observable/of";
+import { catchError } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -21,10 +23,17 @@ export class CompanyService {
   }
 
   saveCompany(company: Company) {
-    this.companyRef
-      .set(company)
-      .then(_ => console.log("success on set"))
-      .catch(error => console.log("set", error));
+    // this.companyRef
+    //   .set(company)
+    //   .then(_ => console.log("success on set"))
+    //   .catch(error => console.log("set", error));
+
+    from(this.companyRef.set(company)).pipe(
+      catchError(error => {
+        console.log("set", error);
+        return of("Error");
+      })
+    );
   }
   editCompany(company: any) {
     this.companyRef
