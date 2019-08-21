@@ -19,10 +19,13 @@ export class CompanyEditComponent implements OnInit {
   ngOnInit() {}
 
   saveCompany(company) {
-    this.companyService.saveCompany({ name: company.name });
+    this.companyService.saveCompany(company);
   }
 
   editCompany(company) {
     this.companyService.editCompany({ phone: "123-456=7890" });
+  }
+  deleteCompany() {
+    this.companyService.deleteCompany();
   }
 }
